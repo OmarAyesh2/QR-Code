@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { QRConfig } from '../types';
 import { useDebounce } from '../hooks/useDebounce';
 
@@ -10,7 +10,6 @@ export const QRPreview: React.FC<QRPreviewProps> = ({ config }) => {
   const qrRef = useRef<HTMLDivElement>(null);
   const qrCodeInstance = useRef<QRCodeStyling | null>(null);
   const debouncedConfig = useDebounce(config, 150);
-  const [isCopied, setIsCopied] = useState(false);
 
   // Initialize QR Code Instance once
   useEffect(() => {
@@ -82,11 +81,9 @@ export const QRPreview: React.FC<QRPreviewProps> = ({ config }) => {
     }
   };
 
-  const handleDownload = async () => {
+  const handleDownloadPNG = async () => {
     if (!qrCodeInstance.current) return;
     try {
-        await qrCodeInstance.current.getRawData('png'); // Trigger internal download logic or buffer
-        
         const blob = await qrCodeInstance.current.getRawData('png');
         if (blob) {
             const url = URL.createObjectURL(blob);
@@ -99,24 +96,27 @@ export const QRPreview: React.FC<QRPreviewProps> = ({ config }) => {
             URL.revokeObjectURL(url);
         }
     } catch (err) {
-        console.error("Download failed", err);
+        console.error("Download PNG failed", err);
     }
   };
 
-  const handleCopy = async () => {
+  const handleDownloadSVG = async () => {
     if (!qrCodeInstance.current) return;
     try {
-      const blob = await qrCodeInstance.current.getRawData('png');
+      const blob = await qrCodeInstance.current.getRawData('svg');
       if (blob) {
-        await navigator.clipboard.write([
-            new ClipboardItem({ [blob.type]: blob })
-        ]);
-        setIsCopied(true);
-        setTimeout(() => setIsCopied(false), 2000);
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `eagleon-qr-${Date.now()}.svg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
       }
     } catch (err) {
-      console.error('Failed to copy: ', err);
-      alert('Failed to copy to clipboard.');
+      console.error('Failed to download SVG: ', err);
+      alert('Failed to download SVG.');
     }
   };
 
@@ -142,20 +142,19 @@ export const QRPreview: React.FC<QRPreviewProps> = ({ config }) => {
       {/* Action Buttons */}
       <div className="flex w-full gap-4 max-w-md">
         <button
-          onClick={handleCopy}
+          onClick={handleDownloadSVG}
           disabled={!config.text}
           className={`
             flex-1 py-3 px-6 rounded-lg font-bold uppercase tracking-wider text-sm transition-all
             border border-eagleon-secondary/30 text-eagleon-secondary hover:bg-eagleon-secondary/10
             disabled:opacity-50 disabled:cursor-not-allowed
-            ${isCopied ? 'bg-green-500/10 text-green-400 border-green-500/30' : ''}
           `}
         >
-          {isCopied ? 'Copied!' : 'Copy Img'}
+          Download SVG
         </button>
         
         <button
-          onClick={handleDownload}
+          onClick={handleDownloadPNG}
           disabled={!config.text}
           className="
             flex-1 py-3 px-6 rounded-lg font-bold uppercase tracking-wider text-sm
