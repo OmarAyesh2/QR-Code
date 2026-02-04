@@ -125,7 +125,7 @@ export const QRPreview: React.FC<QRPreviewProps> = ({ config }) => {
       {/* Preview Container */}
       <div 
         className={`
-          relative p-6 rounded-xl transition-all duration-500 ease-out
+          relative p-6 rounded-xl transition-all duration-500 ease-out max-w-full overflow-hidden
           ${config.glowEffect ? 'shadow-[0_0_80px_-20px_var(--glow-color)] border-eagleon-primary/40' : 'shadow-2xl border-white/10'}
           bg-white/5 border backdrop-blur-sm
         `}
@@ -133,14 +133,15 @@ export const QRPreview: React.FC<QRPreviewProps> = ({ config }) => {
       >
         <div 
           ref={qrRef} 
-          className="overflow-hidden rounded-lg transition-all duration-300 flex items-center justify-center bg-transparent"
+          className="overflow-hidden rounded-lg transition-all duration-300 flex items-center justify-center bg-transparent max-w-full"
+          style={{ maxWidth: '100%', height: 'auto' }}
         >
           {/* Canvas is injected here by library */}
         </div>
       </div>
 
       {/* Action Buttons */}
-      <div className="flex w-full gap-4 max-w-md">
+      <div className="flex w-full gap-4 max-w-md flex-col sm:flex-row">
         <button
           onClick={handleDownloadSVG}
           disabled={!config.text}

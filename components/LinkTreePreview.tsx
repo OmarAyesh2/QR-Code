@@ -196,7 +196,7 @@ export const LinkTreePreview: React.FC<LinkTreePreviewProps> = ({ config }) => {
       `}</style>
       
       {/* Mobile Preview Frame */}
-      <div className="relative w-[300px] h-[600px] bg-black rounded-[3rem] border-8 border-gray-900 shadow-2xl overflow-hidden shrink-0">
+      <div className="relative w-[300px] h-[600px] max-w-full bg-black rounded-[3rem] border-8 border-gray-900 shadow-2xl overflow-hidden shrink-0 origin-top transform scale-90 sm:scale-100">
         {/* Dynamic content inside frame */}
         <div 
             className="w-full h-full overflow-y-auto custom-scrollbar flex flex-col items-center py-12 px-4 scrollbar-hide"

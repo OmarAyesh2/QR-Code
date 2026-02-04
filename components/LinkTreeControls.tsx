@@ -100,7 +100,7 @@ export const LinkTreeControls: React.FC<LinkTreeControlsProps> = ({ config, setC
   };
 
   return (
-    <div className="flex flex-col gap-6 p-6 h-full overflow-y-auto">
+    <div className="flex flex-col gap-6 p-6 lg:h-full">
       
       {/* Profile Section */}
       <div className="flex flex-col gap-4">
@@ -153,7 +153,7 @@ export const LinkTreeControls: React.FC<LinkTreeControlsProps> = ({ config, setC
           </button>
         </div>
 
-        <div className="flex flex-col gap-3 max-h-[400px] overflow-y-auto pr-2 pb-20">
+        <div className="flex flex-col gap-3 max-h-[400px] overflow-y-auto pr-2 pb-20 custom-scrollbar">
           {config.links.map((link) => (
             <div key={link.id} className="bg-white/5 border border-white/10 p-3 rounded-lg flex flex-col gap-2 group hover:border-white/20 transition-all relative">
               
