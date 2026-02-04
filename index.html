@@ -45,13 +45,63 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #7bbbff; 
       }
+
+      /* Glass Button Styles */
+      .glass-button-wrap {
+        position: relative;
+        z-index: 10;
+        border-radius: 9999px;
+        transition: transform 0.2s;
+      }
+      .glass-button-wrap:active {
+        transform: scale(0.98);
+      }
+      .glass-button {
+        position: relative;
+        z-index: 20;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        transition: all 0.3s ease;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .glass-button:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+      .glass-button-shadow {
+        position: absolute;
+        inset: -2px;
+        border-radius: 9999px;
+        background: inherit;
+        opacity: 0;
+        z-index: 0;
+        transition: opacity 0.3s ease;
+        filter: blur(10px);
+        background: radial-gradient(circle at center, var(--glow-color, rgba(123, 187, 255, 0.5)), transparent 70%);
+      }
+      .glass-button-wrap:hover .glass-button-shadow {
+        opacity: 0.6;
+      }
+      .glass-button-text {
+        position: relative;
+        z-index: 30;
+      }
     </style>
   <script type="importmap">
 {
   "imports": {
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
     "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4"
+    "react": "https://esm.sh/react@^19.2.4",
+    "class-variance-authority": "https://esm.sh/class-variance-authority",
+    "clsx": "https://esm.sh/clsx",
+    "tailwind-merge": "https://esm.sh/tailwind-merge"
   }
 }
 </script>
