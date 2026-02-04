@@ -226,6 +226,8 @@ export const LinkTreePreview: React.FC<LinkTreePreviewProps> = ({ config }) => {
                     <a 
                       key={link.id} 
                       href={link.url} 
+                      onClick={(e) => e.preventDefault()}
+                      title="Link disabled in preview"
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="w-full block no-underline"
